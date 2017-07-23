@@ -90,12 +90,12 @@ IF /I "%IN_PLACE_DEPLOYMENT%" NEQ "1" (
 )
 
 echo Installing npm packages: Starting %TIME%
-call :ExecuteCmd %DEPLOYMENT_TARGET%\npm install
+npm install
 echo Installing npm packages: Finished %TIME%
 
 
 echo Running Gulp: Starting %TIME%
-call :ExecuteCmd %DEPLOYMENT_TARGET%\gulp
+gulp
 echo Running Gulp: Finished %TIME%
 
 ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
