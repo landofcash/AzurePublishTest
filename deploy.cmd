@@ -83,20 +83,23 @@ IF /I "%IN_PLACE_DEPLOYMENT%" NEQ "1" (
 
 IF !ERRORLEVEL! NEQ 0 goto error
 
+echo Installing npm packages: Starting %TIME%
+call :ExecuteCmd "%DEPLOYMENT_TEMP%\npm" install
+echo Installing npm packages: Finished %TIME%
+
+
+echo Running Gulp: Starting %TIME%
+call :ExecuteCmd "%DEPLOYMENT_TEMP%\gulp"
+echo Running Gulp: Finished %TIME%
+
+
 :: 3. KuduSync
 IF /I "%IN_PLACE_DEPLOYMENT%" NEQ "1" (
   call :ExecuteCmd "%KUDU_SYNC_CMD%" -v 50 -f "%DEPLOYMENT_TEMP%" -t "%DEPLOYMENT_TARGET%" -n "%NEXT_MANIFEST_PATH%" -p "%PREVIOUS_MANIFEST_PATH%" -i ".git;.hg;.deployment;deploy.cmd"
   IF !ERRORLEVEL! NEQ 0 goto error
 )
 
-echo Installing npm packages: Starting %TIME%
-%DEPLOYMENT_TARGET%\npm install
-echo Installing npm packages: Finished %TIME%
 
-
-echo Running Gulp: Starting %TIME%
-%DEPLOYMENT_TARGET%\gulp
-echo Running Gulp: Finished %TIME%
 
 ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
