@@ -136,7 +136,9 @@
     <Content Include="gulpfile.babel.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
-    <Content Include=".babelrc" />
+    <Content Include=".babelrc">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="package.json" />
     <None Include="Properties\PublishProfiles\AzureDeployTest20170323121244.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />

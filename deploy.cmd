@@ -86,12 +86,14 @@ IF !ERRORLEVEL! NEQ 0 goto error
 echo Installing npm packages: Starting %TIME%
 cd %DEPLOYMENT_TEMP%
 call :ExecuteCmd npm install
+IF !ERRORLEVEL! NEQ 0 goto error
 echo Installing npm packages: Finished %TIME%
 
 
 echo Running Gulp: Starting %TIME%
 cd %DEPLOYMENT_TEMP%
 call :ExecuteCmd gulp
+IF !ERRORLEVEL! NEQ 0 goto error
 echo Running Gulp: Finished %TIME%
 
 
