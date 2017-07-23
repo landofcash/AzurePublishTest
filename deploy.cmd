@@ -57,9 +57,10 @@ IF DEFINED CLEAN_LOCAL_DEPLOYMENT_TEMP (
   mkdir "%DEPLOYMENT_TEMP%"
 )
 
-IF NOT DEFINED MSBUILD_PATH (
-  SET MSBUILD_PATH=%WINDIR%\Microsoft.NET\Framework\v4.0.30319\msbuild.exe
-)
+IF DEFINED MSBUILD_PATH goto MsbuildPathDefined
+SET MSBUILD_PATH=%ProgramFiles(x86)%\MSBuild\14.0\Bin\MSBuild.exe
+:MsbuildPathDefined
+
 
 ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 :: Deployment
@@ -88,11 +89,16 @@ IF /I "%IN_PLACE_DEPLOYMENT%" NEQ "1" (
   IF !ERRORLEVEL! NEQ 0 goto error
 )
 
-::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+echo Installing npm packages: Starting %TIME%
+call :ExecuteCmd %DEPLOYMENT_TARGET%\npm install
+echo Installing npm packages: Finished %TIME%
 
-:: Post deployment stub
-IF DEFINED POST_DEPLOYMENT_ACTION call "%POST_DEPLOYMENT_ACTION%"
-IF !ERRORLEVEL! NEQ 0 goto error
+
+echo Running Gulp: Starting %TIME%
+call :ExecuteCmd %DEPLOYMENT_TARGET%\gulp
+echo Running Gulp: Finished %TIME%
+
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
 goto end
 

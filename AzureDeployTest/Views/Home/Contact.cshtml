@@ -1,17 +1,126 @@
-﻿@{
-    ViewBag.Title = "Contact";
+﻿<h3>Add Agent</h3>
+<div class="container">
+    <div id="agentModelForm" style="padding-bottom: 15px;">
+        <form class="form-horizontal form-xs">
+            <div class="row">
+                <p class="bg-primary">Agent Information</p>
+                <div class="col-md-6">
+                    <input-bs name="First Name" v-model="FName" :required="true"></input-bs>
+                    <input-bs name="Middle Name" v-model="MName"></input-bs>
+                    <input-bs name="Last Name" v-model="LName" :required="true"></input-bs>
+                    <password-bs name="Password" v-model="Password"></password-bs>
+                    <select-bs name="Case Manager" v-model="CaseManagerId" :options="CaseManagerOptions"></select-bs>
+                    <select-bs name="Sales Executive" v-model="SalesExecutiveId" :options="SalesExecutiveOptions"></select-bs>
+                </div>
+            </div>
+
+            <div class="row">
+                <p class="bg-primary">Contact information</p>
+                <div class="col-md-6">
+                    <address-suggest-bs name="Work Address 1" v-model="WorkAddress1" v-on:update="updateWorkAddress" :required="true"></address-suggest-bs>
+                    <input-bs name="Work Address 2" v-model="WorkAddress2"></input-bs>
+                    <input-bs name="City" v-model="WorkCity"></input-bs>
+                    <input-bs name="Work State" v-model="WorkState" :required="true"></input-bs>
+                    <input-bs name="Zip Code" v-model="WorkZip" :required="true"></input-bs>
+                    <input-bs name="Work Phone" v-model="WorkPhone" :required="true"></input-bs>
+                    <input-bs name="Work Fax" v-model="WorkFax"></input-bs>
+                    <input-bs name="Pager" v-model="Pager"></input-bs>
+                    <input-bs name="Cell Phone" v-model="CellPhone"></input-bs>
+                    <input-bs name="E-mail" v-model="Email" :required="true" :email="true"></input-bs>
+                </div>
+            </div>
+
+            <div class="row">
+                <p class="bg-primary"> Paperwork Handling Information</p>
+                <div class="col-md-6">
+                    <input-bs name="Handling Instruction" v-model="HandlingInstruction"></input-bs>
+                    <input-bs name="Mailing Attn" v-model="MailingAttn"></input-bs>
+                    <address-suggest-bs name="Address" v-model="Address" v-on:update="updatePaperworkAddress"></address-suggest-bs>
+                    <input-bs name="City" v-model="City"></input-bs>
+                    <input-bs name="State" v-model="State"></input-bs>
+                    <input-bs name="Zip Code" v-model="Zip"></input-bs>
+                    <input-bs name="Fax" v-model="Fax"></input-bs>
+                </div>
+            </div>
+
+            <div class="row">
+                <p class="bg-primary"> Insurance Company Information</p>
+                <div class="col-md-6">
+                    <select-bs name="Insurance Company" v-model="InsuranceCompanyId" :options="InsuranceCompanyOptions"></select-bs>
+                    <select-bs name="Origin" v-model="OriginId" :options="OriginOptions"></select-bs>
+                    <input-bs name="Special Notes" v-model="SpecialNotes"></input-bs>
+                    <input-bs name="Agency Code / Name" v-model="AgencyCode"></input-bs>
+                    <input-bs name="Agent code" v-model="AgentCode"></input-bs>
+                    <select-bs name="Reward Scheme" v-model="RewardScheme" :options="RewardSchemeOptions"></select-bs>
+                    <checkbox-bs name="Can view exam" v-model="CanViewExam"></checkbox-bs>
+                    <checkbox-bs name="Receive email updates" v-model="ReceiveEmailUpdates"></checkbox-bs>
+                    <checkbox-bs name="Auto-Email the exam" v-model="AutoEmailExam"></checkbox-bs>
+                    <checkbox-bs name="Birth Day Reminder" v-model="BirthDayReminder"></checkbox-bs>
+                    <checkbox-bs name="eAnnualReport" v-model="EAnnualReport"></checkbox-bs>
+                </div>
+            </div>
+
+            <div class="row center-block">
+                <button type="button" class="btn btn-primary center-block" @@click="AddPost">Create Profile</button>
+            </div>
+
+            <div class="row">
+                <div class="col-md-offset-2 col-md-6">
+                    <div class="panel panel-danger" v-show="errors.errors.length>0" style="margin-top: 15px;">
+                        <div class="panel-heading">Form Errors</div>
+                        <div class="panel-body">
+                            <span id="helpBlock" class="help-block" v-for="err in errors.errors"><span class="text-danger">{{err.msg}}</span></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </form>
+    </div>
+</div>
+
+@section scripts
+{
+    <script>
+        var model = @Html.Raw(Json.Encode(Model));
+        var vm = new Vue({
+            el: '#agentModelForm',
+            data: model,
+            components: IMSVueComponents,
+            methods: {
+                updateWorkAddress: function(address) {
+                    console.log(address);
+                    this.WorkAddress1 = address.street;
+                    this.WorkCity = address.city;
+                    this.WorkState = address.state;
+                    this.WorkZip = address.zipcode;
+                },
+                updatePaperworkAddress: function(address) {
+                    this.Address = address.street;
+                    this.City = address.city;
+                    this.State = address.state;
+                    this.Zip = address.zipcode;
+                },
+                AddPost() {
+                    this.$validator.validateAll().then(result => {
+                        if (result) {
+                            var jqxhr = $.post('@Url.Action("AddPost")', model)
+                                .done(function(data) {
+                                    console.log(data.result);
+                                    console.log(data.model);
+                                    alert( "success" );
+                                })
+                                .fail(function() {
+                                    console.log("AddPost error");
+                                })
+                                .always(function() {
+                                    console.log("AddPost finished");
+                                });
+                            return;
+                        }
+                    });
+                }
+            }
+        });
+    </script>
 }
-<h2>@ViewBag.Title.</h2>
-<h3>@ViewBag.Message</h3>
-
-<address>
-    One Microsoft Way<br />
-    Redmond, WA 98052-6399<br />
-    <abbr title="Phone">P:</abbr>
-    425.555.0100
-</address>
-
-<address>
-    <strong>Support:</strong>   <a href="mailto:Support@example.com">Support@example.com</a><br />
-    <strong>Marketing:</strong> <a href="mailto:Marketing@example.com">Marketing@example.com</a>
-</address>
