@@ -1,0 +1,47 @@
+﻿@{
+    List<string> cdn = new List<string>()
+    {
+            "https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js", //jQuery https://jquery.com/
+            "https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.4/lodash.js", //lodash 
+            "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css", //bootstrap
+            "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js",//bootstrap
+            "https://cdnjs.cloudflare.com/ajax/libs/bootstrap-social/5.1.1/bootstrap-social.min.css", //social buttons for BS http://lipis.github.io/bootstrap-social/
+            "https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.16.0/jquery.validate.min.js", //jQuery form validation http://jqueryvalidation.org/
+            "https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.6/jquery.validate.unobtrusive.min.js",
+            "https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js",
+            "https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js",//JSON format view
+            "https://cdnjs.cloudflare.com/ajax/libs/corejs-typeahead/1.1.1/typeahead.bundle.js", //Autocomplete lib http://corejavascript.github.io/typeahead.js/
+            "https://cdnjs.cloudflare.com/ajax/libs/typeahead.js-bootstrap-css/1.2.1/typeaheadjs.css",//Autocomplete CSS for bootstrap
+            "https://cdnjs.cloudflare.com/ajax/libs/vue/2.3.4/vue.js",//vue.js
+            "https://cdnjs.cloudflare.com/ajax/libs/vee-validate/2.0.0-rc.6/vee-validate.js",//vue.js
+            "https://maps.googleapis.com/maps/api/js?libraries=places&key=AIzaSyDx8qz6EM2SkT-PBBLraJb6_H7g1EiGvII&language=en&x.js", //google places autocomplete apis
+        };
+    //now add compiled files from js/dst
+    string rootFolder = Server.MapPath("~");
+    DirectoryInfo jsDstDir = new DirectoryInfo(Server.MapPath("~/js/dst"));
+    if (jsDstDir.Exists)
+    {
+        foreach (FileInfo file in jsDstDir.GetFiles())
+        {
+            cdn.Add(file.FullName.Replace(rootFolder, "\\").Replace("\\", "/"));
+        }
+        foreach (DirectoryInfo dir in jsDstDir.GetDirectories())
+        {
+            foreach (FileInfo file in dir.GetFiles())
+            {
+                cdn.Add(file.FullName.Replace(rootFolder, "\\").Replace("\\", "/"));
+            }
+        }
+    }
+    foreach (string item in cdn)
+    {
+        if (item.EndsWith(".css"))
+        {
+            <link href="@item" rel="stylesheet">
+        }
+        if (item.EndsWith(".js"))
+        {
+            <script src="@item"></script>
+        }
+    }
+}
