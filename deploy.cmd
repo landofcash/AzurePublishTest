@@ -84,7 +84,7 @@ IF /I "%IN_PLACE_DEPLOYMENT%" NEQ "1" (
 IF !ERRORLEVEL! NEQ 0 goto error
 
 
-echo Installing npm packages: Starting %TIME%
+echo  Installing npm packages: Starting %TIME%
 echo %DEPLOYMENT_TEMP%
 cd "%DEPLOYMENT_TEMP%"
 call :ExecuteCmd npm install
