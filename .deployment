@@ -1,2 +1,3 @@
 [config]
+
 command = deploy-cfg.cmd AzureDeployTest dev
