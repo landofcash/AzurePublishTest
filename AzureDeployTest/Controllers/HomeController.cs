@@ -154,7 +154,7 @@ namespace AzureDeployTest.Controllers
             return View();
         }
 
-        public ActionResult Contact()
+        public ActionResult Vuejs()
         {
             var model = new AgentModel();
             model.CaseManagerOptions = GetCaseManagerOptions();
