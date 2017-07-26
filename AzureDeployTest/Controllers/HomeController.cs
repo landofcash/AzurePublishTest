@@ -173,10 +173,18 @@ namespace AzureDeployTest.Controllers
             return Json(new { model, result = true });
         }
 
-        //[IPAddressRoleFilter("servers,local")]
+        
         public ActionResult IPInfo()
         {
             return View();
         }
+
+        [IPAddressRoleFilter("servers,local")]
+        public ActionResult IPLocal()
+        {
+            return View();
+        }
+
+        
     }
 }

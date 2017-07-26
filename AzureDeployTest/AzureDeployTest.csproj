@@ -223,6 +223,7 @@
     <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\Home\_ViewStart.cshtml" />
     <Content Include="Views\Home\IPInfo.cshtml" />
+    <Content Include="Views\Home\IPLocal.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
