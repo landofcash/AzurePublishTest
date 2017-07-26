@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@using AzureDeployTest.Core
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -7,32 +8,55 @@
     @Html.Partial("_includes")
 </head>
 <body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                @Html.ActionLink("Azure Deploy Test", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+@RenderSection("rightAfterTheBody", required: false)
+<div id="header">
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <div class="navbar-header branch-@Config.DefaultConfig.Branch">
+                <a class="navbar-brand" href="#">
+                    <i class="fa fa-hospital-o branch-@Config.DefaultConfig.Branch"></i>
+                    @Config.DefaultConfig.SiteName
+                </a>
             </div>
-            <div class="navbar-collapse collapse">
+            @if (Request.IsAuthenticated)
+            {
                 <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                    <li>@Html.ActionLink("About", "About", "Home")</li>
-                    <li>@Html.ActionLink("Vuejs Test", "Vuejs", "Home")</li>
+                    <li><a href="@Url.Action("Index", "Home")">Home</a></li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Info <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="@Url.Action("About", "Home")">About</a></li>
+                            <li><a href="@Url.Action("Vuejs", "Home")">Vuejs Demo</a></li>
+                        </ul>
+                    </li>
                 </ul>
-            </div>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="@Url.Action("LogOut", "Account")">Logout</a></li>
+                </ul>
+            }
+            else
+            {
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="@Url.Action("Login", "Account")">Log in</a></li>
+                </ul>
+           }
         </div>
-    </div>
+    </nav>
+</div>
+<div class="container mainContent" id="content">
+    @RenderBody()
+</div>
+
+<div id="footer" style="padding-top: 25px; padding-bottom: 25px;">
     <div class="container body-content">
-        @RenderBody()
-        <hr />
         <footer>
-            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
+            <p>&copy; @DateTime.Now.Year - @Config.DefaultConfig.SiteName</p>
+            <p>Server Now: <strong>@DateTime.Now</strong> </p>
+            <p>Published: <strong>@Config.DefaultConfig.PublishedDate</strong> Branch: <strong>@Config.DefaultConfig.Branch</strong> Commit: <strong>@Config.DefaultConfig.Commit</strong> <a href="@Url.Action("IPInfo","Home")">IP info</a></p>
         </footer>
     </div>
-    @RenderSection("scripts", required: false)
+</div>
+@RenderSection("modals", false)
+@RenderSection("scripts", false)
 </body>
 </html>

@@ -1,0 +1,20 @@
+﻿@using AzureDeployTest.Core
+@model RolesWithIpConfig
+<h2>IMS Paramed TxLife Home</h2>
+<h2>IP Info</h2>
+<div>IP: @Request.UserHostName</div>
+<h2></h2>
+@{
+    var iproles = RolesWithIpConfig.Default.GetRolesWithIp();
+}
+
+<div>
+    @foreach (string role in iproles.Keys)
+{
+    <div style="padding-top: 15px;"><strong>Role:</strong> @role</div>
+    foreach (string ip in iproles[role])
+    {
+        <div style="padding-left: 15px">@ip</div>
+    }
+}
+</div>

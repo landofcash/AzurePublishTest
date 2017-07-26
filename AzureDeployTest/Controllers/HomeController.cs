@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using IPAddressFiltering;
 
 namespace AzureDeployTest.Controllers
 {
@@ -165,10 +166,17 @@ namespace AzureDeployTest.Controllers
             return View(model);
         }
 
+        [HttpPost]
         public JsonResult AddPost(AgentModel model)
         {
             Console.WriteLine(model);
             return Json(new { model, result = true });
+        }
+
+        //[IPAddressRoleFilter("servers,local")]
+        public ActionResult IPInfo()
+        {
+            return View();
         }
     }
 }

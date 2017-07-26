@@ -1,31 +1,60 @@
 ﻿@{
-    ViewBag.Title = "Home Page";
+    ViewBag.Title = "ASP.NET MVC + VUEJS Home";
 }
 
 <div class="jumbotron">
-    <h1>ASP.NET</h1>
-    <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
-    <p><a href="http://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
+    <h1>ASP.NET MVC + VUEJS</h1>
+    <p class="lead">Bootstrap template for MVC web app with automatic azure deployment from github. With clientside vuejs automatic built with npm and gulp.  </p>
 </div>
 
 <div class="row">
-    <div class="col-md-4">
-        <h2>Getting started</h2>
-        <p>
-            ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
-            enables a clean separation of concerns and gives you full control over markup
-            for enjoyable, agile development.
-        </p>
-        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>
-    </div>
-    <div class="col-md-4">
-        <h2>Get more libraries</h2>
-        <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
-        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>
-    </div>
-    <div class="col-md-4">
-        <h2>Web Hosting</h2>
-        <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
-        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
-    </div>
+    <h2>Tools:</h2>
+    <p>npm -- <a href="https://www.npmjs.com/">https://www.npmjs.com/</a></p>
+    <p>gulp -- <a href="http://gulpjs.com/">http://gulpjs.com/</a></p>
+        
+    <h2>Libs:</h2>
+    <p>vuejs -- <a href="https://vuejs.org/">https://vuejs.org/</a></p>
+    <p>vee validate -- <a href="http://vee-validate.logaretm.com/">http://vee-validate.logaretm.com/</a></p>
+    
+    <h2>Local Process:</h2>
+    <p>Install node.js <a href="https://nodejs.org/en/download/">https://nodejs.org/en/download/</a></p>
+    <p>run "npm install" from the site root (where package.json is located)</p>
+    <p>in VS View->Other Windows->Task Runner Explorer->run default</p>
+    <p>run VS debug as usual</p>
+    <p>deployment on azure: commit + push the branch that is configured on azure for deployment e.g. dev or prod.</p>
+        
+    <h2>Structure:</h2>
+    <p>
+        <ol>
+            <li>.babelrc -- Babel preset config for ES6 <a href="https://babeljs.io/docs/plugins/preset-es2015/">https://babeljs.io/docs/plugins/preset-es2015/</a></li>
+            <li>.deployment -- azure command to run for deployment after git pull</li>
+            <li>gulpfile.babel.js -- gulp tasks</li>
+            <li>package.json -- npm packages</li>
+            <li>packages.config -- nuget packages</li>
+            <li>web.dev.config, web.[BRANCH].config config files for deployment</li>
+            <li>js sources folder: js/src (make sure that all new files are set to "Content" & "Copy if newer")</li>
+            <li>js compiled folder: js/dst</li>
+            <li>js/src/vueComponents (vue components)</li>
+            <li>js/src/less styles</li>
+            <li>files are included in views/shared/_includes.cshtml</li>
+        </ol>
+    </p>
+
+        <h2> Deployment process:</h2>
+    <p>
+        <ol>
+            <li>azure pulls the branch from github that was configured for deployment</li>
+            <li>azure runs the command from .deployment</li>
+            <li>deploy-cfg.cmd creates info.txt text file with the deployment details, runs deploy.cmd afterwards</li>
+            <li>deploy.cmd (modified kudo deployment script) does this:
+                <ol>
+                    <li>nuget restore</li>
+                    <li>msbuild to temp folder</li>
+                    <li>npm install</li>
+                    <li>gulp default</li>
+                    <li>copy files from temp to site folder</li>
+                </ol>
+            </li>
+        </ol>
+    </p>
 </div>
