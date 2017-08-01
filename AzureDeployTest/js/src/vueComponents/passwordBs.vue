@@ -10,7 +10,7 @@
         <div class="form-group" v-bind:class="{'has-error': errors.has('pwd_confirm'+_uid) }">
             <label :for="'input'+_uid" class="col-sm-4 control-label">Confirm {{name}}</label>
             <div class="col-sm-8">
-                <input v-validate="{required:true, confirmed:pwdInputName}" :data-vv-as="'Confirm '+name" :id="pwdInputConfirmName" :name="pwdInputConfirmName" type="password" class="form-control" placeholder="Password, Again" data-vv-validate-on="blur">
+                <input v-validate="{required:false, confirmed:pwdInputName}" :data-vv-as="'Confirm '+name" :id="pwdInputConfirmName" :name="pwdInputConfirmName" type="password" class="form-control" placeholder="Password, Again" data-vv-validate-on="blur" v-model="confirmPassword">
                 <span id="helpBlock" class="help-block" v-for="err in errors.errors.filter(function(err){return err.field===pwdInputConfirmName;})">{{err.msg}}</span>
             </div>
         </div>
@@ -28,7 +28,15 @@
             value: {
                 type: String,
                 default: ''
-            }
+            }            
+        },
+        data: function () {            
+            return {
+                confirmPassword:''
+            }            
+        },
+        mounted: function () {            
+            this.confirmPassword = this.value;            
         },
         computed: {
             pwdInputName: function () {
@@ -39,7 +47,8 @@
             }
         },
         methods: {
-            updateValue: function (value) {
+            updateValue: function (value) {                
+                this.confirmPassword = ''; //clean confirm input
                 var formattedValue = value.trim();
                 this.$emit('input', formattedValue);
             }

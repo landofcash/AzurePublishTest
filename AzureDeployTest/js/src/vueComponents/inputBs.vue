@@ -7,7 +7,7 @@
                 <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-asterisk" title="Required Field" aria-hidden="true"></span></span>
             </div>
             <input v-validate="validateRules" :data-vv-as="name" class="form-control" type="text" ref="input" :id="'input'+_uid" :name="'input'+_uid" :placeholder="name" :value="value" v-on:input="updateValue($event.target.value)" v-if="!required">
-            <span id="helpBlock" class="help-block" v-for="err in errors.errors.filter(function(err){return err.field==='input'+_uid;})">{{err.msg}}</span>
+            <span id="helpBlock" class="help-block" v-for="err in errors.errors.filter(function(err){return err.field==='input'+_uid;})">{{err.msg}}</span>            
         </div>
     </div>
 </template>

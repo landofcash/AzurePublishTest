@@ -1,3 +1,6 @@
+.form-xs {
+  /*typeahead fix*/
+}
 .form-xs .col-sm-1,
 .form-xs .col-sm-2,
 .form-xs .col-sm-3,
@@ -22,6 +25,13 @@
   font-size: 10px;
   line-height: 1.5;
   padding-top: 3px;
+}
+.form-xs .input-group span.twitter-typeahead .tt-menu,
+.form-xs .input-group span.twitter-typeahead .tt-dropdown-menu {
+  top: 20px !important;
+}
+.form-xs .twitter-typeahead {
+  height: 20px !important;
 }
 .form-xs .form-group .form-control {
   height: 20px;
