@@ -186,6 +186,13 @@
     <Content Include=".babelrc">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="libs\vue-text-mask\dist\vueTextMask.js" />
+    <Content Include="libs\vue-text-mask\example\index.html" />
+    <Content Include="libs\vue-text-mask\example\index.js" />
+    <Content Include="libs\vue-text-mask\example\webpack.runVueExample.js" />
+    <Content Include="libs\vue-text-mask\src\vueTextMask.js" />
+    <Content Include="libs\vue-text-mask\test\vueTextMask.spec.js" />
+    <Content Include="libs\vue-text-mask\webpack.buildVueDirective.js" />
     <Content Include="package.json" />
     <Content Include="js\src\less\FormXS.less">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -214,6 +221,12 @@
     <Content Include="js\src\vueComponents\datePicker.vue" />
     <Content Include="js\src\vueComponents\phoneBs.vue" />
     <Content Include="js\src\vueComponents\textAreaBs.vue" />
+    <Content Include="libs\vue-text-mask\dist\stats.json" />
+    <Content Include="libs\vue-text-mask\example\App.vue" />
+    <Content Include="libs\vue-text-mask\LICENSE" />
+    <Content Include="libs\vue-text-mask\package.json" />
+    <Content Include="libs\vue-text-mask\publish.sh" />
+    <Content Include="libs\vue-text-mask\README.md" />
     <None Include="Properties\PublishProfiles\AzureDeployTest20170323121244.pubxml" />
     <Content Include="Scripts\_references.js" />
     <Content Include="Web.config" />
@@ -233,7 +246,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="libs\" />
     <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
