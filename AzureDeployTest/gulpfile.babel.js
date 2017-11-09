@@ -35,8 +35,8 @@ gulp.task('build', () => {
     })
     .pipe(source('index.js'))
     .pipe(buffer())
-    .pipe(uglify())
     .pipe(sourcemaps.init({ loadMaps: true }))
+    .pipe(uglify())
     .pipe(sourcemaps.write('./maps'))
     .pipe(gulp.dest('./js/dst'));
 });

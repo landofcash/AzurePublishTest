@@ -1,0 +1,69 @@
+﻿<h3>Add Agent (Vuejs test)</h3>
+<div class="container">
+    <div id="agentModelForm" style="padding-bottom: 15px;">
+        <form class="form-horizontal form-xs">
+            <div class="row">
+                <p class="bg-primary">Agent Information</p>
+                <div class="col-md-6">
+                    <!--
+                    <masked-input class="form-control" type="text"
+                                  :mask="['(', /[1-9]/, /\d/, /\d/, ')', ' ', /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/]"
+                                  :guide="false"
+                                  placeholderChar="#"
+                                  v-model="Phone">
+                    </masked-input>
+                    -->
+                    <phone-bs name="Phone" v-model="Phone" :required="true"></phone-bs>
+                </div>
+            </div>
+
+            <div class="row center-block">
+                <button type="button" class="btn btn-primary center-block" @@click="AddPost">Create Profile</button>
+            </div>
+
+            <div class="row">
+                <div class="col-md-offset-2 col-md-6">
+                    <div class="panel panel-danger" v-show="errors.items.length>0" style="margin-top: 15px;">
+                        <div class="panel-heading">Form Errors</div>
+                        <div class="panel-body">
+                            <span id="helpBlock" class="help-block" v-for="err in errors.items"><span class="text-danger">{{err.msg}}</span></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section scripts
+{
+    <script>
+        var model = @Html.Raw(Json.Encode(Model));
+        var vm = new Vue({
+            el: '#agentModelForm',
+            data: model,
+            components: IMSVueComponents,
+            methods: {
+                AddPost() {
+                    this.$validator.validateAll().then(result => {
+                        if (result) {
+                            var jqxhr = $.post('@Url.Action("PhoneTestPost")', model)
+                                .done(function(data) {
+                                    console.log(data.result);
+                                    console.log(data.model);
+                                    alert( "success" );
+                                })
+                                .fail(function() {
+                                    console.log("AddPost error");
+                                })
+                                .always(function() {
+                                    console.log("AddPost finished");
+                                });
+                            return;
+                        }
+                    });
+                }
+            }
+        });
+    </script>
+}

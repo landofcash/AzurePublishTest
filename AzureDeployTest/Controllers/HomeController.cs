@@ -97,6 +97,10 @@ namespace AzureDeployTest.Controllers
         public bool EAnnualReport { get; set; }
     }
 
+    public class PhoneModel
+    {
+        public string Phone { get; set; }
+    }
 
     public class HomeController : Controller
     {
@@ -153,6 +157,17 @@ namespace AzureDeployTest.Controllers
             ViewBag.Message = "Your application description page.";
 
             return View();
+        }
+
+        public ActionResult PhoneTest()
+        {
+            var model = new PhoneModel();
+            return View(model);
+        }
+        public ActionResult PhoneTestPost(PhoneModel model)
+        {
+            Console.WriteLine(model);
+            return Json(new { model, result = true });
         }
 
         public ActionResult Vuejs()
