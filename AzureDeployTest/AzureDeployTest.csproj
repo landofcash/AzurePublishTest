@@ -25,6 +25,7 @@
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <Use64BitIISExpress />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -227,6 +228,7 @@
     <Content Include="libs\vue-text-mask\package.json" />
     <Content Include="libs\vue-text-mask\publish.sh" />
     <Content Include="libs\vue-text-mask\README.md" />
+    <Content Include="libs\vue-text-mask-5.1.1.tgz" />
     <None Include="Properties\PublishProfiles\AzureDeployTest20170323121244.pubxml" />
     <Content Include="Scripts\_references.js" />
     <Content Include="Web.config" />
