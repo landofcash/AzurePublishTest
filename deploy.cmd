@@ -87,7 +87,7 @@ IF !ERRORLEVEL! NEQ 0 goto error
 echo  Installing npm packages: Starting %TIME%
 echo %DEPLOYMENT_TEMP%
 cd "%DEPLOYMENT_TEMP%"
-call :ExecuteCmd npm install --no-bin-links --production 
+call :ExecuteCmd npm install --no-bin-links
 IF !ERRORLEVEL! NEQ 0 goto error
 echo Installing npm packages: Finished %TIME%
 
