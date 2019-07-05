@@ -25,7 +25,7 @@
   "dependencies": {
     "object-to-formdata": "git+https://github.com/landofcash/object-to-formdata.git",
     "text-mask-addons": "^3.6.0",
-    "vue-text-mask": "file:libs\\vue-text-mask"
+    "vue-text-mask": "file:libs\\vue-text-mask-5.1.1.tgz"
   },
   "browserify-shim": {
     "jquery": "$",
