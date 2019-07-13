@@ -1,8 +1,13 @@
 @if "%SCM_TRACE_LEVEL%" NEQ "4" @echo off
 
+SET Project=%~1
+SET ProjectPath=%~2
+SET Solution=%~3
+echo Project:%Project%
+echo ProjectPath:%Project%
+echo Solution:%Solution%
 :: ----------------------
 :: KUDU Deployment Script
-:: Version: 0.1.11
 :: ----------------------
 
 :: Prerequisites
@@ -69,42 +74,43 @@ SET MSBUILD_PATH=%ProgramFiles(x86)%\MSBuild\14.0\Bin\MSBuild.exe
 echo Handling .NET Web Application deployment.
 
 :: 1. Restore NuGet packages
-IF /I "AzureDeployTest.sln" NEQ "" (
-  call :ExecuteCmd nuget restore "%DEPLOYMENT_SOURCE%\AzureDeployTest.sln"
+IF /I "%DEPLOYMENT_SOURCE%\%Solution%.sln" NEQ "" (
+  call :ExecuteCmd nuget restore "%DEPLOYMENT_SOURCE%\%Solution%.sln"
   IF !ERRORLEVEL! NEQ 0 goto error
 )
 
 :: 2. Build to the temporary path
 IF /I "%IN_PLACE_DEPLOYMENT%" NEQ "1" (
-  call :ExecuteCmd "%MSBUILD_PATH%" "%DEPLOYMENT_SOURCE%\AzureDeployTest\AzureDeployTest.csproj" /nologo /verbosity:m /t:Build /t:pipelinePreDeployCopyAllFilesToOneFolder /p:_PackageTempDir="%DEPLOYMENT_TEMP%";AutoParameterizationWebConfigConnectionStrings=false;Configuration=Release /p:SolutionDir="%DEPLOYMENT_SOURCE%\.\\" %SCM_BUILD_ARGS%
+  call :ExecuteCmd "%MSBUILD_PATH%" "%DEPLOYMENT_SOURCE%\%ProjectPath%\%Project%.csproj" /nologo /verbosity:m /t:Build /t:pipelinePreDeployCopyAllFilesToOneFolder /p:_PackageTempDir="%DEPLOYMENT_TEMP%";AutoParameterizationWebConfigConnectionStrings=false;Configuration=Release /p:SolutionDir="%DEPLOYMENT_SOURCE%\.\\" %SCM_BUILD_ARGS%
 ) ELSE (
-  call :ExecuteCmd "%MSBUILD_PATH%" "%DEPLOYMENT_SOURCE%\AzureDeployTest\AzureDeployTest.csproj" /nologo /verbosity:m /t:Build /p:AutoParameterizationWebConfigConnectionStrings=false;Configuration=Release /p:SolutionDir="%DEPLOYMENT_SOURCE%\.\\" %SCM_BUILD_ARGS%
+  call :ExecuteCmd "%MSBUILD_PATH%" "%DEPLOYMENT_SOURCE%\%ProjectPath%\%Project%.csproj" /nologo /verbosity:m /t:Build /p:AutoParameterizationWebConfigConnectionStrings=false;Configuration=Release /p:SolutionDir="%DEPLOYMENT_SOURCE%\.\\" %SCM_BUILD_ARGS%
 )
 
 IF !ERRORLEVEL! NEQ 0 goto error
 
 
-echo  Installing npm packages: Starting %TIME%
+echo Installing npm packages: Starting %TIME%
 echo %DEPLOYMENT_TEMP%
 cd "%DEPLOYMENT_TEMP%"
-call :ExecuteCmd npm install --no-bin-links
+echo node -v
+call :ExecuteCmd node -v
+echo npm version
+call :ExecuteCmd npm version
+call :ExecuteCmd npm install
 IF !ERRORLEVEL! NEQ 0 goto error
 echo Installing npm packages: Finished %TIME%
 
 
 echo Running Gulp: Starting %TIME%
 cd "%DEPLOYMENT_TEMP%"
-call :ExecuteCmd gulp
+call :ExecuteCmd "%DEPLOYMENT_TEMP%\node_modules\.bin\gulp"
 IF !ERRORLEVEL! NEQ 0 goto error
 echo Running Gulp: Finished %TIME%
-
-::TODO DELETE SRC FOLDER
-
 
 
 :: 3. KuduSync
 IF /I "%IN_PLACE_DEPLOYMENT%" NEQ "1" (
-  call :ExecuteCmd "%KUDU_SYNC_CMD%" -v 50 -f "%DEPLOYMENT_TEMP%" -t "%DEPLOYMENT_TARGET%" -n "%NEXT_MANIFEST_PATH%" -p "%PREVIOUS_MANIFEST_PATH%" -i ".git;.hg;.deployment;deploy.cmd"
+  call :ExecuteCmd "%KUDU_SYNC_CMD%" -v 50 -f "%DEPLOYMENT_TEMP%" -t "%DEPLOYMENT_TARGET%" -n "%NEXT_MANIFEST_PATH%" -p "%PREVIOUS_MANIFEST_PATH%" -i ".git;.hg;.deployment;deploy.cmd;node_modules;src;npm-libs;"
   IF !ERRORLEVEL! NEQ 0 goto error
 )
 

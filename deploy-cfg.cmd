@@ -1,5 +1,7 @@
 @echo on
 SET Project=%~1
+SET ProjectPath=%~2
+SET Solution=%~3
 echo %branch%
 
 SET ARTIFACTS=%~dp0%..\artifacts
@@ -13,15 +15,15 @@ IF NOT DEFINED DEPLOYMENT_TARGET (
 )
 
 echo Creating info...
-echo commit:%SCM_COMMIT_ID% >"%DEPLOYMENT_SOURCE%\%Project%\info.txt"
-echo. 2>>"%DEPLOYMENT_SOURCE%\%Project%\info.txt"
-echo publishDate: %DATE% %TIME% >>"%DEPLOYMENT_SOURCE%\%Project%\info.txt"
-echo. 2>>"%DEPLOYMENT_SOURCE%\%Project%\info.txt"
-echo branch:%branch% >>"%DEPLOYMENT_SOURCE%\%Project%\info.txt"
+echo commit:%SCM_COMMIT_ID% >"%DEPLOYMENT_SOURCE%\%ProjectPath%\info.txt"
+echo. 2>>"%DEPLOYMENT_SOURCE%\%ProjectPath%\info.txt"
+echo publishDate: %DATE% %TIME% >>"%DEPLOYMENT_SOURCE%\%ProjectPath%\info.txt"
+echo. 2>>"%DEPLOYMENT_SOURCE%\%ProjectPath%\info.txt"
+echo branch:%branch% >>"%DEPLOYMENT_SOURCE%\%ProjectPath%\info.txt"
 
 echo Deploying files...
-xcopy /Y "%DEPLOYMENT_SOURCE%\%Project%\Web.%branch%.config" "%DEPLOYMENT_SOURCE%\%Project%\Web.config*"
+xcopy /Y "%DEPLOYMENT_SOURCE%\%ProjectPath%\Web.%branch%.config" "%DEPLOYMENT_SOURCE%\%ProjectPath%\Web.config*"
 
 echo
 
-deploy.cmd
+deploy.cmd "%Project%" "%ProjectPath%" "%Solution%"

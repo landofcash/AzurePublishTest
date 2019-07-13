@@ -9,34 +9,32 @@ const vueify = require('vueify');
 const babelify = require("babelify");
 const source = require('vinyl-source-stream');
 const buffer = require("vinyl-buffer");
-const gutil = require('gulp-util');
 const less = require('gulp-less');
 const path = require('path');
+const log = require('fancy-log');
+const colors = require('ansi-colors');
 
-gulp.task('default', ['clean'], function () {
-    gulp.start(['build','less']);
-});
-
-gulp.task('clean', function () {
+gulp.task('clean', () => {
+    log("Clean task.","Cleaning");
     return del('./js/dst/');
 });
 
 gulp.task('build', () => {
-    browserify({
+    return  browserify({
         entries: './js/src/vueComponents/app.jsx',
         extensions: ['.jsx'],
         debug: true
     })
-    .transform(vueify)
     .transform(babelify)
+    .transform(vueify, { _flags: { debug: true } })
     .bundle()
     .on('error', err => {
-        gutil.log("Browserify Error", gutil.colors.red(err.message));
+        log("Browserify Error", colors.red(err));
     })
     .pipe(source('index.js'))
     .pipe(buffer())
+    //.pipe(uglify())
     .pipe(sourcemaps.init({ loadMaps: true }))
-    .pipe(uglify())
     .pipe(sourcemaps.write('./maps'))
     .pipe(gulp.dest('./js/dst'));
 });
@@ -45,7 +43,11 @@ gulp.task('build', () => {
 gulp.task('less', function () {
     return gulp.src('./js/src/less/**/*.less')
         .pipe(less({
-            paths: [ path.join(__dirname, 'less', 'includes') ]
+            paths: [path.join(__dirname, 'less', 'includes')]
         }))
         .pipe(gulp.dest('./js/dst'));
+});
+
+gulp.task('default', gulp.series(['clean'], gulp.parallel(['build', 'less'])), () => {
+    
 });

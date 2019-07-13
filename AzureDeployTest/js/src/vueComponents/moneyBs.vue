@@ -3,18 +3,36 @@
         <label :for="'input'+_uid" :class="styleLabel">{{name}}</label>
         <div :class="styleInput">
             <div class="input-group" v-if="required">
-                <textarea v-validate="validateRules" :data-vv-as="name" :data-vv-scope="dataVvScope" class="form-control" type="text" ref="input" v-bind:style="textAreaStyle" :id="'input'+_uid" :name="'input'+_uid" :placeholder="name" :value="value" v-on:input="updateValue($event.target.value)"></textarea>
+                <masked-input v-validate="validateRules" data-vv-validate-on="blur" :data-vv-name="'input'+_uid" :data-vv-as="name" :data-vv-scope="dataVvScope"  class="form-control" type="text"
+                              :mask="numberMask"
+                              :guide="false"
+                              placeholderChar="#"
+                              :keepCharPositions="true"
+                              ref="input" :id="'input'+_uid" :name="'input'+_uid" :placeholder="name" :value="value" v-on:input="updateValue($event)">
+                </masked-input>
                 <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-asterisk" title="Required Field" aria-hidden="true"></span></span>
             </div>
-            <textarea v-validate="validateRules" :data-vv-as="name" :data-vv-scope="dataVvScope" class="form-control" type="text" ref="input" v-bind:style="textAreaStyle" :id="'input'+_uid" :name="'input'+_uid" :placeholder="name" :value="value" v-on:input="updateValue($event.target.value)" v-if="!required"></textarea>
+            <masked-input v-validate="validateRules" data-vv-validate-on="blur" :data-vv-name="'input'+_uid" :data-vv-as="name"  :data-vv-scope="dataVvScope"  class="form-control" type="text"
+                          :mask="numberMask"
+                          :guide="false"
+                          placeholderChar="#"
+                          :keepCharPositions="true"
+                          ref="input" :id="'input'+_uid" :name="'input'+_uid" :placeholder="name" :value="value" v-on:input="updateValue($event)" v-if="!required">
+            </masked-input>
             <span id="helpBlock" class="help-block" v-for="err in errors.items.filter(function(err){return err.field==='input'+_uid;})">{{err.msg}}</span>
         </div>
     </div>
 </template>
 
 <script>
+    var createNumberMask = require('text-mask-addons/dist/createNumberMask');
+    var maskedInput = require('vue-text-mask');    
+
     module.exports = {
         inject: ['$validator'],
+        components: {
+            maskedInput: maskedInput.default
+        },
         props: {
             name: {
                 type: String,
@@ -28,16 +46,6 @@
                 type: Boolean,
                 default: false
             },
-            email: {
-                type: Boolean,
-                default: false
-            },
-            textAreaStyle: {
-                type: Object,
-                default: function () {
-                    return {};
-                }
-            },
             labelCols: {
                 type: Number,
                 default: 4
@@ -49,12 +57,11 @@
         },
         computed: {
             validateRules: function () {
-                var res = {};
+                var res = {
+                    
+                }                
                 if (this.required) {
                     res.required = true;
-                }
-                if (this.email) {
-                    res.email = true;
                 }
                 return res;
             },
@@ -72,10 +79,13 @@
             }
         },
         methods: {
-            updateValue: function (value) {
-                var formattedValue = value;
-                this.$emit('input', formattedValue);
-            }
+            updateValue: function (value) {                
+                this.$emit('input', value);
+            },
+            numberMask: createNumberMask.default({
+                prefix: '$ ',
+                suffix: '' // This will put the dollar sign at the end, with a space.
+            })
         }
     }
 </script>

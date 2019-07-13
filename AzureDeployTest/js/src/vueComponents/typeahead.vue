@@ -1,15 +1,15 @@
 ﻿<template>
-    <div class="form-group" v-bind:class="{'has-error': errors.has('typeahead'+_uid)||errors.has('typeahead-validate-'+_uid) }">
-        <label :for="'typeahead'+_uid" class="col-sm-4 control-label">{{name}}</label>
-        <div class="col-sm-8">
+    <div class="form-group" v-bind:class="{'has-error': errors.has('typeahead'+_uid, dataVvScope)||errors.has('typeahead-validate-'+_uid, dataVvScope) }">
+        <label :for="'typeahead'+_uid" :class="styleLabel">{{name}}</label>
+        <div :class="styleInput">
             <div class="input-group" v-if="required">
-                <input v-validate="validateRules" :data-vv-as="name" class="form-control" type="text" ref="input" :id="'typeahead'+_uid" :name="'typeahead'+_uid" :placeholder="name" :value="value.Name" v-on:input="onInput($event.target.value)" v-on:blur="onBlur()">
+                <input v-validate="validateRules" :data-vv-as="name" :data-vv-scope="dataVvScope"  class="form-control" type="text" ref="input" :id="'typeahead'+_uid" :name="'typeahead'+_uid" :placeholder="name" :value="value.Name" v-on:input="onInput($event.target.value)" v-on:blur="onBlur()">
                 <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-asterisk" title="Required Field" aria-hidden="true"></span></span>
             </div>
-            <input v-validate="validateRules" :data-vv-as="name" class="form-control" type="text" ref="input" :id="'typeahead'+_uid" :name="'typeahead'+_uid" :placeholder="name" :value="value.Name" v-on:input="onInput($event.target.value)" v-if="!required"  v-on:blur="onBlur()">
+            <input v-validate="validateRules" :data-vv-as="name" :data-vv-scope="dataVvScope"  class="form-control" type="text" ref="input" :id="'typeahead'+_uid" :name="'typeahead'+_uid" :placeholder="name" :value="value.Name" v-on:input="onInput($event.target.value)" v-if="!required"  v-on:blur="onBlur()">
             <input type="hidden" v-validate="validateRules" :value="value.Id" :id="'typeahead-validate-'+_uid" :name="'typeahead-validate-'+_uid" />            
-            <span id="helpBlock" class="help-block" :data-vv-as="name+' Id '" v-for="err in errors.errors.filter(function(err){return err.field==='typeahead-validate-'+_uid;})">Select an item from the list.</span>
-            <span id="helpBlock" class="help-block" v-for="err in errors.errors.filter(function(err){return err.field==='typeahead'+_uid;})">{{err.msg}}</span>
+            <span id="helpBlock" class="help-block" :data-vv-as="name+' Id '" v-for="err in errors.items.filter(function(err){return err.field==='typeahead-validate-'+_uid;})">Select an item from the list.</span>
+            <span id="helpBlock" class="help-block" v-for="err in errors.items.filter(function(err){return err.field==='typeahead'+_uid;})">{{err.msg}}</span>
             <span v-show="isLoading" style="position:absolute; background-color:white; border:solid 1px #cccccc; padding:5px; z-index:1000;">...loading...</span>
         </div>
     </div>
@@ -42,6 +42,14 @@
             value: {
                 type: Object,
                 default: function () { return { Id: null, Name: '' } }
+            },
+            labelCols: {
+                type: Number,
+                default: 4
+            },
+            dataVvScope: {
+                type: String,
+                default: undefined
             }
         },
         data: function () {
@@ -57,6 +65,18 @@
                     res.required = true;
                 }                
                 return res;
+            },
+            styleLabel: function () {
+                if (this.labelCols > 0) {
+                    return 'col-sm-' + this.labelCols + ' control-label';
+                }
+                return 'control-label';
+            },
+            styleInput: function () {
+                if (this.labelCols > 0) {
+                    return 'col-sm-' + (12 - this.labelCols);
+                }
+                return '';
             }
         },        
 
@@ -74,7 +94,7 @@
             parseTemplate: function (data) {
                 var res = Vue.compile(this.suggestionTemplate);
                 var vm = new Vue({
-                    data,
+                    data: data,
                     render: res.render,
                     staticRenderFns: res.staticRenderFns
                 }).$mount();
@@ -110,7 +130,7 @@
                         });
                     },
                     limit: me.limit,
-                    templates
+                    templates: templates
                 };
                 $(document).find('#' + 'typeahead' + me._uid).typeahead({
                     minLength: 0,

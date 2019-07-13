@@ -3,10 +3,10 @@
         <label :for="'input'+_uid" :class="styleLabel">{{name}}</label>
         <div :class="styleInput">
             <div class="input-group" v-if="required">
-                <textarea v-validate="validateRules" :data-vv-as="name" :data-vv-scope="dataVvScope" class="form-control" type="text" ref="input" v-bind:style="textAreaStyle" :id="'input'+_uid" :name="'input'+_uid" :placeholder="name" :value="value" v-on:input="updateValue($event.target.value)"></textarea>
+                <input v-validate="validateRules" :data-vv-as="name" :data-vv-scope="dataVvScope" class="form-control" type="number" ref="input" :id="'input'+_uid" :name="'input'+_uid" :placeholder="name" :value="value" @input="updateValue($event.target.value)">
                 <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-asterisk" title="Required Field" aria-hidden="true"></span></span>
             </div>
-            <textarea v-validate="validateRules" :data-vv-as="name" :data-vv-scope="dataVvScope" class="form-control" type="text" ref="input" v-bind:style="textAreaStyle" :id="'input'+_uid" :name="'input'+_uid" :placeholder="name" :value="value" v-on:input="updateValue($event.target.value)" v-if="!required"></textarea>
+            <input v-validate="validateRules" :data-vv-as="name" :data-vv-scope="dataVvScope" class="form-control" type="number" ref="input" :id="'input'+_uid" :name="'input'+_uid" :placeholder="name" :value="value" @input="updateValue($event.target.value)" v-if="!required">
             <span id="helpBlock" class="help-block" v-for="err in errors.items.filter(function(err){return err.field==='input'+_uid;})">{{err.msg}}</span>
         </div>
     </div>
@@ -21,22 +21,12 @@
                 required: true
             },
             value: {
-                type: String,
+                //type: Number,
                 default: ''
             },
             required: {
                 type: Boolean,
                 default: false
-            },
-            email: {
-                type: Boolean,
-                default: false
-            },
-            textAreaStyle: {
-                type: Object,
-                default: function () {
-                    return {};
-                }
             },
             labelCols: {
                 type: Number,
@@ -49,13 +39,11 @@
         },
         computed: {
             validateRules: function () {
-                var res = {};
+                var res = { decimal: true};
                 if (this.required) {
                     res.required = true;
                 }
-                if (this.email) {
-                    res.email = true;
-                }
+                
                 return res;
             },
             styleLabel: function () {
@@ -73,7 +61,7 @@
         },
         methods: {
             updateValue: function (value) {
-                var formattedValue = value;
+                var formattedValue = value.trim();
                 this.$emit('input', formattedValue);
             }
         }
