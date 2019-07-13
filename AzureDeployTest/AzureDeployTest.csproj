@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">  
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
@@ -226,6 +226,16 @@
     <Content Include="npm-libs\vue-text-mask\package.json" />
     <Content Include="npm-libs\vue-text-mask\publish.sh" />
     <Content Include="npm-libs\vue-text-mask\README.md" />
+    <Content Include="js\src\vueComponents\dateRangePicker.vue" />
+    <Content Include="js\src\vueComponents\errorModalBs.vue" />
+    <Content Include="js\src\vueComponents\inputNumberBs.vue" />
+    <Content Include="js\src\vueComponents\modalBs.vue" />
+    <Content Include="js\src\vueComponents\moneyBs.vue" />
+    <Content Include="js\src\vueComponents\ssnBs.vue" />
+    <Content Include="js\src\vueComponents\vueFullLoading.vue" />
+    <Content Include="js\src\vueComponents\yesNo.vue" />
+    <Content Include="js\src\less\FileUploadButton.less" />
+    <Content Include="js\src\less\modalHeaderColor.less" />
     <None Include="Properties\PublishProfiles\AzureDeployTest20170323121244.pubxml" />
     <Content Include="robots.txt" />
     <Content Include="Scripts\_references.js" />
@@ -288,6 +298,6 @@
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
-    </PropertyGroup>    
-  </Target>  
+    </PropertyGroup>
+  </Target>
 </Project>
