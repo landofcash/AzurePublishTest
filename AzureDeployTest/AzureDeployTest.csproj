@@ -181,6 +181,13 @@
     <Content Include="libs\vue-text-mask\src\vueTextMask.js" />
     <Content Include="libs\vue-text-mask\test\vueTextMask.spec.js" />
     <Content Include="libs\vue-text-mask\webpack.buildVueDirective.js" />
+    <Content Include="npm-libs\vue-text-mask\dist\vueTextMask.js" />
+    <Content Include="npm-libs\vue-text-mask\example\index.html" />
+    <Content Include="npm-libs\vue-text-mask\example\index.js" />
+    <Content Include="npm-libs\vue-text-mask\example\webpack.runVueExample.js" />
+    <Content Include="npm-libs\vue-text-mask\src\vueTextMask.js" />
+    <Content Include="npm-libs\vue-text-mask\test\vueTextMask.spec.js" />
+    <Content Include="npm-libs\vue-text-mask\webpack.buildVueDirective.js" />
     <Content Include="package.json" />
     <Content Include="js\src\less\FormXS.less">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -216,10 +223,22 @@
     <Content Include="libs\vue-text-mask\publish.sh" />
     <Content Include="libs\vue-text-mask\README.md" />
     <Content Include="libs\vue-text-mask-5.1.1.tgz" />
+    <Content Include="npm-libs\vue-text-mask-5.1.1.tgz" />
+    <Content Include="npm-libs\vue-text-mask\dist\stats.json" />
+    <Content Include="npm-libs\vue-text-mask\example\App.vue" />
+    <Content Include="npm-libs\vue-text-mask\LICENSE" />
+    <Content Include="npm-libs\vue-text-mask\package.json" />
+    <Content Include="npm-libs\vue-text-mask\publish.sh" />
+    <Content Include="npm-libs\vue-text-mask\README.md" />
     <None Include="Properties\PublishProfiles\AzureDeployTest20170323121244.pubxml" />
+    <Content Include="robots.txt" />
     <Content Include="Scripts\_references.js" />
-    <Content Include="Web.config" />
-    <Content Include="Views\Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Views\Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
@@ -232,6 +251,7 @@
     <Content Include="Views\Home\IPInfo.cshtml" />
     <Content Include="Views\Home\IPLocal.cshtml" />
     <Content Include="Views\Home\PhoneTest.cshtml" />
+    <None Include="Web.dev.config" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
