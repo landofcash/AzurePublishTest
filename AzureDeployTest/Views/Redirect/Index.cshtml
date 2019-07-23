@@ -1,0 +1,13 @@
+﻿
+<h2></h2>
+<div class="jumbotron">
+    <h1>Redirector</h1>
+    @if (!string.IsNullOrEmpty(ViewBag.Original))
+    {
+        <p class="lead">The original URL (@ViewBag.Original) doesn't match any existing redirect pattern. </p>
+    }
+    else
+    {
+        <p class="lead">The original URL (@ViewBag.Original) must be provided. </p>
+    }
+</div>

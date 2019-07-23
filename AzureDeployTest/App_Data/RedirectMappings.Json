@@ -1,0 +1,4 @@
+{"items":[
+{"template":"imsparamed\\-txlife\\.azurewebsites\\.net","redirectUrl":"https://txlife.imsparamed.com"},
+{"template":"imsparamed\\-txlife\\-dev\\.azurewebsites\\.net","redirectUrl":"https://txlife-dev.imsparamed.com"}
+]}
