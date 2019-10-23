@@ -26,9 +26,9 @@ steps:
     script: |
       set -x
       echo Creating info...
-      echo commit:$(Build.SourceVersion) >"$(Build.SourcesDirectory)\info.txt"
-      echo "">>$(Build.SourcesDirectory)\info.txt"
-      echo publishDate: date +%F date +%T >>"$(Build.SourcesDirectory)\info.txt"
+      echo commit:$(Build.SourceVersion) > "$(Build.SourcesDirectory)\info.txt"
+      echo "">>"$(Build.SourcesDirectory)\info.txt"
+      echo publishDate: date +%F date +%T >> "$(Build.SourcesDirectory)\info.txt"
       echo "">>"$(Build.SourcesDirectory)\info.txt"
       echo branch:$(Build.SourceBranchName) >>"$(Build.SourcesDirectory)\info.txt"
       echo Deploying files...
