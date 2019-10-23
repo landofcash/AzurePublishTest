@@ -35,10 +35,10 @@ steps:
       echo -----------Files
       ls "$(Build.SourcesDirectory)"
       echo -----------Info.txt content
-      < "$(Build.SourcesDirectory)\$(webProjectFolder)\info.txt"
+      cat "$(Build.SourcesDirectory)\$(webProjectFolder)\info.txt"
       echo -----------coping web.config
-      rm $(Build.SourcesDirectory)\$(webProjectFolder)\Web.config
-      cp "$(Build.SourcesDirectory)\$(webProjectFolder)\Web.$(Build.SourceBranchName).config" "$(Build.SourcesDirectory)\$(webProjectFolder)\Web.config" /y
+      rm "$(Build.SourcesDirectory)\$(webProjectFolder)\Web.config"
+      cp "$(Build.SourcesDirectory)\$(webProjectFolder)\Web.$(Build.SourceBranchName).config" "$(Build.SourcesDirectory)\$(webProjectFolder)\Web.config"
       
 - task: VSBuild@1
   inputs:
