@@ -28,12 +28,12 @@ steps:
       set -x
       wp="$(Build.SourcesDirectory)\$(webProjectFolder)"
       echo Creating info...
-      echo commit:$(Build.SourceVersion) > "$(wp)\info.txt"
-      echo publishDate: date +%F date +%T >> "$(wp)\info.txt"
-      echo branch:$(Build.SourceBranchName) >>"$(wp)\info.txt"
+      echo commit:$(Build.SourceVersion) > "$wp\info.txt"
+      echo publishDate: date +%F date +%T >> "$wp\info.txt"
+      echo branch:$(Build.SourceBranchName) >>"$wp\info.txt"
       echo -----------coping web.config
-      test -e "$(wp)\Web.config" && rm "$(wp)\Web.config" || echo "No Web.config to remove."
-      test -e "$(wp)\Web.$(Build.SourceBranchName).config" && cp "$(wp)\Web.$(Build.SourceBranchName).config" "$(wp)\Web.config" || echo "No $(wp)\Web.$(Build.SourceBranchName).config to copy." >&2
+      test -e "$wp\Web.config" && rm "$wp\Web.config" || echo "No Web.config to remove."
+      test -e "$wp\Web.$(Build.SourceBranchName).config" && cp "$wp\Web.$(Build.SourceBranchName).config" "$wp\Web.config" || echo "No $wp\Web.$(Build.SourceBranchName).config to copy." >&2
       
       
 - task: VSBuild@1
