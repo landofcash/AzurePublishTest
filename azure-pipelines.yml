@@ -32,7 +32,8 @@ steps:
       echo "">>"$(Build.SourcesDirectory)\info.txt"
       echo branch:$(Build.SourceBranchName) >>"$(Build.SourcesDirectory)\info.txt"
       echo Deploying files...
-      xcopy /Y "$(Build.SourcesDirectory)\Web.$(Build.SourceBranchName).config" "$(Build.SourcesDirectory)\Web.config*"
+      xcopy "$(Build.SourcesDirectory)\Web.$(Build.SourceBranchName).config" "$(Build.SourcesDirectory)\Web.config" /y
+      
 - task: VSBuild@1
   inputs:
     solution: '$(solution)'
