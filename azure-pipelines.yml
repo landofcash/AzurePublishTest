@@ -26,19 +26,15 @@ steps:
     targetType: 'inline'
     script: |
       set -x
+      wp="$(Build.SourcesDirectory)\$(webProjectFolder)"
       echo Creating info...
-      echo commit:$(Build.SourceVersion) > "$(Build.SourcesDirectory)\$(webProjectFolder)\info.txt"
-      echo "">>"$(Build.SourcesDirectory)\$(webProjectFolder)\info.txt"
-      echo publishDate: date +%F date +%T >> "$(Build.SourcesDirectory)\$(webProjectFolder)\info.txt"
-      echo "">>"$(Build.SourcesDirectory)\$(webProjectFolder)\info.txt"
-      echo branch:$(Build.SourceBranchName) >>"$(Build.SourcesDirectory)\$(webProjectFolder)\info.txt"
-      echo -----------Files
-      ls "$(Build.SourcesDirectory)"
-      echo -----------Info.txt content
-      cat "$(Build.SourcesDirectory)\$(webProjectFolder)\info.txt"
+      echo commit:$(Build.SourceVersion) > "$(wp)\info.txt"
+      echo publishDate: date +%F date +%T >> "$(wp)\info.txt"
+      echo branch:$(Build.SourceBranchName) >>"$(wp)\info.txt"
       echo -----------coping web.config
-      rm "$(Build.SourcesDirectory)\$(webProjectFolder)\Web.config"
-      cp "$(Build.SourcesDirectory)\$(webProjectFolder)\Web.$(Build.SourceBranchName).config" "$(Build.SourcesDirectory)\$(webProjectFolder)\Web.config"
+      test -e "$(wp)\Web.config" && rm "$(wp)\Web.config" || echo "No Web.config to remove."
+      test -e "$(wp)\Web.$(Build.SourceBranchName).config" && cp "$(wp)\Web.$(Build.SourceBranchName).config" "$(wp)\Web.config" || echo "No $(wp)\Web.$(Build.SourceBranchName).config to copy." >&2
+      
       
 - task: VSBuild@1
   inputs:
