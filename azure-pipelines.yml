@@ -24,8 +24,14 @@ steps:
   inputs:
     targetType: 'inline'
     script: |
-      # Write your commands here
-      echo $(Build.SourceVersion)
+      echo Creating info...
+      echo commit:$(Build.SourceVersion) >"$(Build.SourcesDirectory)\info.txt"
+      echo "">>$(Build.SourcesDirectory)\info.txt"
+      echo publishDate: date +%F date +%T >>"$(Build.SourcesDirectory)\info.txt"
+      echo "">>"$(Build.SourcesDirectory)\info.txt"
+      echo branch:$(Build.SourceBranchName) >>"$(Build.SourcesDirectory)\info.txt"
+      echo Deploying files...
+      xcopy /Y "$(Build.SourcesDirectory)\Web.%branch%.config" "$(Build.SourcesDirectory)\Web.config*"
 - task: VSBuild@1
   inputs:
     solution: '$(solution)'
