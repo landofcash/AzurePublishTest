@@ -12,7 +12,8 @@ pool:
 variables:
   solution: '**/*.sln'
   buildPlatform: 'Any CPU'
-  buildConfiguration: 'Release'
+  buildConfiguration: 'Release'  
+  webProjectFolder: 'AzureDeployTest'
 
 steps:
 - task: NuGetToolInstaller@1
@@ -26,14 +27,16 @@ steps:
     script: |
       set -x
       echo Creating info...
-      echo commit:$(Build.SourceVersion) > "$(Build.SourcesDirectory)\info.txt"
-      echo "">>"$(Build.SourcesDirectory)\info.txt"
-      echo publishDate: date +%F date +%T >> "$(Build.SourcesDirectory)\info.txt"
-      echo "">>"$(Build.SourcesDirectory)\info.txt"
-      echo branch:$(Build.SourceBranchName) >>"$(Build.SourcesDirectory)\info.txt"
-      echo Deploying files...
+      echo commit:$(Build.SourceVersion) > "$(Build.SourcesDirectory)\$(webProjectFolder)\info.txt"
+      echo "">>"$(Build.SourcesDirectory)\$(webProjectFolder)\info.txt"
+      echo publishDate: date +%F date +%T >> "$(Build.SourcesDirectory)\$(webProjectFolder)\info.txt"
+      echo "">>"$(Build.SourcesDirectory)\$(webProjectFolder)\info.txt"
+      echo branch:$(Build.SourceBranchName) >>"$(Build.SourcesDirectory)\$(webProjectFolder)\info.txt"
+      echo FILES:
       ls "$(Build.SourcesDirectory)"
-      xcopy "$(Build.SourcesDirectory)\AzureDeployTest\Web.$(Build.SourceBranchName).config" "$(Build.SourcesDirectory)\AzureDeployTest\Web.config*" /y
+      echo info.txt content:$(Build.SourcesDirectory)\$(webProjectFolder)\info.txt
+      < filename
+      xcopy "$(Build.SourcesDirectory)\$(webProjectFolder)\Web.$(Build.SourceBranchName).config" "$(Build.SourcesDirectory)\$(webProjectFolder)\Web.config*" /y
       
 - task: VSBuild@1
   inputs:
