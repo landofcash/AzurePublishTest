@@ -24,7 +24,7 @@ steps:
   inputs:
     script: |
       echo Write your commands here
-      echo %VARIABLE_NAME%
+      echo %Build.SourceVersion%
       echo Hello world
 - task: VSBuild@1
   inputs:
