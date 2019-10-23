@@ -32,11 +32,13 @@ steps:
       echo publishDate: date +%F date +%T >> "$(Build.SourcesDirectory)\$(webProjectFolder)\info.txt"
       echo "">>"$(Build.SourcesDirectory)\$(webProjectFolder)\info.txt"
       echo branch:$(Build.SourceBranchName) >>"$(Build.SourcesDirectory)\$(webProjectFolder)\info.txt"
-      echo FILES:
+      echo -----------Files
       ls "$(Build.SourcesDirectory)"
-      echo info.txt 
-      < $(Build.SourcesDirectory)\$(webProjectFolder)\info.txt
-      copy "$(Build.SourcesDirectory)\$(webProjectFolder)\Web.$(Build.SourceBranchName).config" "$(Build.SourcesDirectory)\$(webProjectFolder)\Web.config" /y
+      echo -----------Info.txt content
+      < "$(Build.SourcesDirectory)\$(webProjectFolder)\info.txt"
+      echo -----------coping web.config
+      rm $(Build.SourcesDirectory)\$(webProjectFolder)\Web.config
+      cp "$(Build.SourcesDirectory)\$(webProjectFolder)\Web.$(Build.SourceBranchName).config" "$(Build.SourcesDirectory)\$(webProjectFolder)\Web.config" /y
       
 - task: VSBuild@1
   inputs:
