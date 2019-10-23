@@ -33,7 +33,7 @@ steps:
       echo branch:$(Build.SourceBranchName) >>"$wp\info.txt"
       echo -----------coping web.config
       test -e "$wp\Web.config" && rm "$wp\Web.config" || echo "No Web.config to remove."
-      test -e "$wp\Web.$(Build.SourceBranchName).config" && cp "$wp\Web.$(Build.SourceBranchName).config" "$wp\Web.config" || echo "No $wp\Web.$(Build.SourceBranchName).config to copy."; exit 1;
+      test -e "$wp\Web.$(Build.SourceBranchName).config" && cp "$wp\Web.$(Build.SourceBranchName).config" "$wp\Web.config" || {echo "No $wp\Web.$(Build.SourceBranchName).config to copy."; exit 1;}
       
       
 - task: VSBuild@1
