@@ -32,7 +32,7 @@ steps:
       echo "">>"$(Build.SourcesDirectory)\info.txt"
       echo branch:$(Build.SourceBranchName) >>"$(Build.SourcesDirectory)\info.txt"
       echo Deploying files...
-      ls $(Build.SourcesDirectory)
+      ls "$(Build.SourcesDirectory)"
       xcopy "$(Build.SourcesDirectory)\AzureDeployTest\Web.$(Build.SourceBranchName).config" "$(Build.SourcesDirectory)\AzureDeployTest\Web.config*" /y
       
 - task: VSBuild@1
