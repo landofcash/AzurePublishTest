@@ -34,9 +34,9 @@ steps:
       echo branch:$(Build.SourceBranchName) >>"$(Build.SourcesDirectory)\$(webProjectFolder)\info.txt"
       echo FILES:
       ls "$(Build.SourcesDirectory)"
-      echo info.txt content:$(Build.SourcesDirectory)\$(webProjectFolder)\info.txt
-      < filename
-      xcopy "$(Build.SourcesDirectory)\$(webProjectFolder)\Web.$(Build.SourceBranchName).config" "$(Build.SourcesDirectory)\$(webProjectFolder)\Web.config*" /y
+      echo info.txt 
+      < $(Build.SourcesDirectory)\$(webProjectFolder)\info.txt
+      copy "$(Build.SourcesDirectory)\$(webProjectFolder)\Web.$(Build.SourceBranchName).config" "$(Build.SourcesDirectory)\$(webProjectFolder)\Web.config" /y
       
 - task: VSBuild@1
   inputs:
