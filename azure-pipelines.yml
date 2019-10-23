@@ -24,6 +24,7 @@ steps:
   inputs:
     targetType: 'inline'
     script: |
+      set -x
       echo Creating info...
       echo commit:$(Build.SourceVersion) >"$(Build.SourcesDirectory)\info.txt"
       echo "">>$(Build.SourcesDirectory)\info.txt"
